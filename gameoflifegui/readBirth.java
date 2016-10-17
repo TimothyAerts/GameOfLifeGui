@@ -13,11 +13,13 @@ import java.util.Scanner;
 public class readBirth{
     private int[] size = new int[2];
     private File file;
+    String birthFilename;
     private Scanner input;
     private String line = "";
     Cell[][] Cells;
     readBirth(String str){
         file = new File(str);
+        birthFilename = str;
         try {
             input = new Scanner(file);
         }catch (Exception e) {
@@ -35,10 +37,9 @@ public class readBirth{
         return size;
     }
     
-    public void readCells(){
-        readBirth readbirthtext = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/gameoflifegui/birth.txt");
-        readbirthtext.readSize();
-        Cells  = new Cell[readbirthtext.readSize()[0]][readbirthtext.readSize()[1]];
+    public Cell[][] readCells(){
+        size = this.readSize();
+        Cells  = new Cell[size[0]][size[1]];
         int rowcounter = 0;
         input.nextLine();
         
@@ -50,12 +51,14 @@ public class readBirth{
             for (int i=0 ;i<linearray.length ;i++){
                 Cell cellval;
                 cellval = new Cell(linearray[i]);
-                System.out.println("cellvall " + cellval.isAlive() + "origineel " + linearray[i]);
+                System.out.println("i "+i+"row "+rowcounter);
                 Cells[rowcounter][columncounter] = cellval;
                 columncounter++;
             }
+            System.out.println(line);
             rowcounter ++;
         }
+        return Cells;
         
     }
 

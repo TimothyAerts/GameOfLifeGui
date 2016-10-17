@@ -19,23 +19,22 @@ public class GameOflife extends JPanel{
     JButton start;
     JButton stop;
     Cell[][] Cells;
-    
+        
     public void PrepGui() {
         Mainframe = new JFrame("Game Of Life GUI");
-        Mainframe.setSize(800,800);
-        Mainframe.setLayout(new GridLayout(2,2));
+        Mainframe.setSize(400,400);
         CellPane = new JTextArea();
         Buttons = new JPanel();
         Mainframe.add(CellPane);
-        Mainframe.add(Buttons);
+        Mainframe.add(Buttons, BorderLayout.SOUTH);
+        Mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
 
     }
-    public Cell[][] CreateCells () {
+    public void CreateInitialCells () {      
+        readBirth initialBirth = new readBirth("C:\\Users\\Mathieu\\Documents\\NetBeansProjects\\gameoflifegui\\src\\gameoflifegui\\birth.txt");
+        this.Cells = initialBirth.readCells();
         
-        
-        
-        return Cells;
     }
     public void run() {
         start = new JButton("Start/resume");
@@ -47,7 +46,26 @@ public class GameOflife extends JPanel{
         start.addActionListener(new ButtonClickListener());
         stop.addActionListener(new ButtonClickListener());
         Mainframe.setVisible(true);
-        Mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.CreateInitialCells();
+        this.printCells();
+        
+    }
+    
+    public void printCells() {
+        System.out.println(Cells[0][0]);
+           for (int row=0 ; row<this.Cells.length;row++){
+                for (int column = 0 ;column < this.Cells[row].length;column++){
+                    if(this.Cells[row][column].isAlive()){
+                        String val = "* ";
+                        this.CellPane.append(val);
+                    }else{
+                        String val =" . ";
+                        this.CellPane.append(val);
+                    }
+                }
+               this.CellPane.append("\n");
+            
+           }
     }
     
     private class ButtonClickListener implements ActionListener{
@@ -61,29 +79,10 @@ public class GameOflife extends JPanel{
         }
     
     }
-   private class PrintCells {
-       private Cell[][] CellGrid;
-       JTextArea CellPane;
-       PrintCells (Cell[][] Grid, JTextArea CellPane){
-           CellGrid = Grid;
-           for (int row=0 ; row<=this.CellGrid.length;row++){
-                for (int column = 0 ;column <= this.CellGrid[row].length;column++){
-                    if(CellGrid[row][column].isAlive() == true){
-                        String val = "*";
-                        this.CellPane.append(val);
-                    }else{
-                        String val =" ";
-                        this.CellPane.append(val);
-                    }       
-            }
-        }
-          
-       }
-        
             
         
         
         
    
-    }
+    
 }

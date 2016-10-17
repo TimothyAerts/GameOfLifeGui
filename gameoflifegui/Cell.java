@@ -41,8 +41,8 @@ public class Cell {
      * @param row row index of the current cell
      * @param col column index of current cell
      */
-    void update (Cell[][] cell,int row, int col){
-        int aliveneighbours = 0;
+    public int checkNeighbour (Cell[][] cell, int row, int col){
+       int aliveneighbours = 0;
         int i = row - 1;
         while (i <= row+1){
             int j = col -1;
@@ -54,19 +54,26 @@ public class Cell {
                 }
                 j++;
             }
-            i++;
+            i++; 
+        }
+        return aliveneighbours;
     }
+    
+    public boolean update (Cell[][] cell,int row, int col){
         
+       int aliveneighbours = this.checkNeighbour(cell, row, col);        
        // using the previous counter the following logic sets the current cell to true or false according to the specifications 
-       if (aliveneighbours <= 2 && this.isAlive()){
-           this.setAlive(false);
-       }else if (aliveneighbours >= 3 && this.isAlive()){
-           this.setAlive(false);
-       }else if (2<= aliveneighbours && aliveneighbours <= 3 && this.isAlive()){
-           this.setAlive(true);
-       }else if (!this.isAlive() && aliveneighbours == 3){
-           this.setAlive(true);
-       }
        
+       if (aliveneighbours < 2 && this.isAlive()){
+           return false;
+       }else if (aliveneighbours > 3 && this.isAlive()){
+           return false;
+       }else if (2== aliveneighbours && aliveneighbours == 3 && this.isAlive()){
+           return true;
+       }else if (!this.isAlive() && aliveneighbours == 3){
+           return true;
+       } else {
+       return false;
+       }
     }
 }
