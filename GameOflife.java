@@ -18,23 +18,22 @@ public class GameOflife extends JPanel{
     JPanel Buttons;
     JButton start;
     JButton stop;
+    private Cell[][] InitialCells = this.CreateCells();
     Cell[][] Cells;
     
     public void PrepGui() {
         Mainframe = new JFrame("Game Of Life GUI");
-        Mainframe.setSize(800,800);
-        Mainframe.setLayout(new GridLayout(2,2));
+        Mainframe.setSize(800,600);
+        //Mainframe.setLayout(new GridLayout(2,2));
         CellPane = new JTextArea();
         Buttons = new JPanel();
         Mainframe.add(CellPane);
-        Mainframe.add(Buttons);
-        
+        Mainframe.add(Buttons, BorderLayout.SOUTH);
 
     }
     public Cell[][] CreateCells () {
-        
-        
-        
+        readBirth readinitial = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/gameoflifegui/birth.txt");
+        Cells = readinitial.readCells();
         return Cells;
     }
     public void run() {
@@ -48,19 +47,17 @@ public class GameOflife extends JPanel{
         stop.addActionListener(new ButtonClickListener());
         Mainframe.setVisible(true);
         Mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.CreateCells();
     }
     
-    private class ButtonClickListener implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-            String command = e.getActionCommand();
-            if (command.equals( "Start")){
-                System.out.println("Start");
-            } else if (command.equals( "Stop" )){
-                System.out.println("Stop");
-            }
+
+   private void updateGeneration (){
+    for (int i = 0; i <= this.CreateCells().length ; i++){
+        for (int j = 0 ; j <= this.CreateCells()[i].length; j++){
+            this.InitialCells[i][j].update(this.CreateCells(), i, j);
         }
-    
     }
+}
    private class PrintCells {
        private Cell[][] CellGrid;
        JTextArea CellPane;
@@ -78,12 +75,17 @@ public class GameOflife extends JPanel{
             }
         }
           
-       }
-        
-            
-        
-        
-        
-   
+       }   
+    }
+       private class ButtonClickListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            String command = e.getActionCommand();
+            if (command.equals( "Start")){
+                System.out.println("Start");
+            } else if (command.equals( "Stop" )){
+                System.out.println("Stop");
+            }
+        }
+    
     }
 }

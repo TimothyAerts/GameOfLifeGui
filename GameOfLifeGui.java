@@ -19,8 +19,6 @@ public class GameOfLifeGui {
         GameOflife GameOflife = new GameOflife();
         GameOflife.PrepGui();
         GameOflife.run();
-        readBirth starttext = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/gameoflifegui/birth.txt");
-        starttext.readCells();
     }
     
 }
