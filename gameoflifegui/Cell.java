@@ -42,38 +42,64 @@ public class Cell {
      * @param col column index of current cell
      */
     public int checkNeighbour (Cell[][] cell, int row, int col){
-       int aliveneighbours = 0;
+        int j = col - 1;
+        int colMax = col + 1;
+        int rowMax = row + 1;
+        int aliveneighbours = 0;
         int i = row - 1;
-        while (i <= row+1){
-            int j = col -1;
-            while (j <= col +1){
-                if(cell[row][j].isAlive()){
-                    aliveneighbours +=1;
-                }else{
-                    continue;
-                }
-                j++;
+        if (i < 0){
+            i = row;    
+        }
+        if (rowMax >= cell.length){
+            rowMax = cell.length-1;            
+        }
+        
+        while (i <= rowMax){
+                j = col -1;
+            if (j < 0){
+                j = col;
             }
+            if (colMax >= cell[0].length){
+                colMax = cell[0].length-1;
+            }
+            while (j <= colMax){
+//                System.out.println("boolean"+cell[i][j].isAlive());
+                if (i==row && j==col){
+                    System.out.println("i+j "+i+" "+j);
+                    j++;
+                }else if (cell[i][j].isAlive()){
+                    aliveneighbours +=1;                    
+                    System.out.println("i+j2 "+i+" "+j);
+                    j++;
+                }else{
+                    System.out.println("i+j3 "+i+" "+j);
+                    j++;
+                }
+            }
+            System.out.println("------------");
             i++; 
+            System.out.println("i "+i);
+            System.out.println("------------");
         }
         return aliveneighbours;
+        
     }
     
     public boolean update (Cell[][] cell,int row, int col){
         
-       int aliveneighbours = this.checkNeighbour(cell, row, col);        
+       int aliveNeighbours = this.checkNeighbour(cell, row, col);        
        // using the previous counter the following logic sets the current cell to true or false according to the specifications 
        
-       if (aliveneighbours < 2 && this.isAlive()){
+       if (aliveNeighbours < 2 && this.isAlive()){
            return false;
-       }else if (aliveneighbours > 3 && this.isAlive()){
+       }else if (aliveNeighbours > 3 && this.isAlive()){
            return false;
-       }else if (2== aliveneighbours && aliveneighbours == 3 && this.isAlive()){
+       }else if (2== aliveNeighbours && aliveNeighbours == 3 && this.isAlive()){
            return true;
-       }else if (!this.isAlive() && aliveneighbours == 3){
+       }else if (!this.isAlive() && aliveNeighbours == 3){
            return true;
        } else {
-       return false;
+       return this.isAlive();
        }
     }
 }

@@ -48,10 +48,10 @@ public class readBirth{
             line  = input.nextLine().trim();
             linearray = line.split(" ");
             int columncounter = 0;
-            for (int i=0 ;i<linearray.length ;i++){
+            for (int col=0 ;col<linearray.length ;col++){
                 Cell cellval;
-                cellval = new Cell(linearray[i]);
-                System.out.println("i "+i+"row "+rowcounter);
+                cellval = new Cell(linearray[col]);
+                System.out.println("col "+col+"row "+rowcounter);
                 Cells[rowcounter][columncounter] = cellval;
                 columncounter++;
             }
