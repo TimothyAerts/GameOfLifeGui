@@ -13,20 +13,20 @@ public class Cell {
     private boolean alive;
     private int numNeighbours;
     Cell (String str){
-        switch (str) {
-            case "*":
-                this.setAlive(true);
-                break;
-            case ".":
-                this.setAlive(false);
-                break;
-            default:
-                System.out.println("ERROR Wrong string in input file");
-                break;
+        if (str.equals("*")){
+            this.setAlive(true);
+        }else if (str.equals(".")){
+            this.setAlive(false);
+        }else {
+            System.out.println("ERROR Wrong string in input file");
         }
     }
     void setAlive(boolean state) {
-        alive = state;
+    if(state){
+        alive = true;
+    }else{
+        alive = false;
+    }
 }
     boolean isAlive() {
         return alive;
@@ -41,35 +41,65 @@ public class Cell {
      * @param row row index of the current cell
      * @param col column index of current cell
      */
-    boolean update (Cell[][] cell,int row, int col){
+    public int checkNeighbour (Cell[][] cell, int row, int col){
+        int j = col - 1;
+        int colMax = col + 1;
+        int rowMax = row + 1;
         int aliveneighbours = 0;
-        int i = row - 1;//go 1 row up to start.
-        while (i <= row+1){
-            int j = col -1; //start 1 col to the left this is reset within every row.
-            while (j <= col +1){
-                if(cell[row][j].isAlive()){
-                    aliveneighbours +=1; //set living neighbour count to increase if we find a living neighbour.
-                }else{
-                    continue;
-                } 
-               j++;
+        int i = row - 1;
+        if (i < 0){
+            i = row;    
+        }
+        if (rowMax >= cell.length){
+            rowMax = cell.length-1;            
+        }
+        
+        while (i <= rowMax){
+                j = col -1;
+            if (j < 0){
+                j = col;
             }
-            i++;
+            if (colMax >= cell[0].length){
+                colMax = cell[0].length-1;
+            }
+            while (j <= colMax){
+//                System.out.println("boolean"+cell[i][j].isAlive());
+                if (i==row && j==col){
+                    System.out.println("i+j "+i+" "+j);
+                    j++;
+                }else if (cell[i][j].isAlive()){
+                    aliveneighbours +=1;                    
+                    System.out.println("i+j2 "+i+" "+j);
+                    j++;
+                }else{
+                    System.out.println("i+j3 "+i+" "+j);
+                    j++;
+                }
+            }
+            System.out.println("------------");
+            i++; 
+            System.out.println("i "+i);
+            System.out.println("------------");
+        }
+        return aliveneighbours;
+        
     }
+    
+    public boolean update (Cell[][] cell,int row, int col){
+        
+       int aliveNeighbours = this.checkNeighbour(cell, row, col);        
        // using the previous counter the following logic sets the current cell to true or false according to the specifications 
-       if (aliveneighbours <= 2 && this.isAlive()){
-           this.setAlive(false);
+       
+       if (aliveNeighbours < 2 && this.isAlive()){
            return false;
-       }else if (aliveneighbours >= 3 && this.isAlive()){
-           this.setAlive(false);
+       }else if (aliveNeighbours > 3 && this.isAlive()){
+           return false;
+       }else if (2== aliveNeighbours && aliveNeighbours == 3 && this.isAlive()){
            return true;
-       }else if (2<= aliveneighbours && aliveneighbours <= 3 && this.isAlive()){
-           this.setAlive(true);
+       }else if (!this.isAlive() && aliveNeighbours == 3){
            return true;
-       }else if (!this.isAlive() && aliveneighbours == 3){
-           this.setAlive(true);
-           return true;
+       } else {
+       return this.isAlive();
        }
-        return true;
     }
 }

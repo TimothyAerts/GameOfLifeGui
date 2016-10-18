@@ -13,11 +13,13 @@ import java.util.Scanner;
 public class readBirth{
     private int[] size = new int[2];
     private File file;
+    String birthFilename;
     private Scanner input;
     private String line = "";
     Cell[][] Cells;
     readBirth(String str){
         file = new File(str);
+        birthFilename = str;
         try {
             input = new Scanner(file);
         }catch (Exception e) {
@@ -36,27 +38,32 @@ public class readBirth{
     }
     
     public Cell[][] readCells(){
-        this.readSize();
-        Cells  = new Cell[this.readSize()[0]][this.readSize()[1]];
+        size = this.readSize();
+        Cells  = new Cell[size[0]][size[1]];
         int rowcounter = 0;
-        //skip line after the size ints
         input.nextLine();
-        //while there are lines keep scanning could also be done with forloop since we have size.
+        
         while (input.hasNextLine()){
             String[] linearray;
             line  = input.nextLine().trim();
             linearray = line.split(" ");
-            int columncounter = 0; // reset the column counter after the 15 columns have been visited.
-            for (int i=0 ;i<linearray.length ;i++){
+            int columncounter = 0;
+            for (int col=0 ;col<linearray.length ;col++){
                 Cell cellval;
-                cellval = new Cell(linearray[i]);
-                System.out.println("cellvall " + cellval.isAlive() + "origineel " + linearray[i]);
+                cellval = new Cell(linearray[col]);
+                System.out.println("col "+col+"row "+rowcounter);
                 Cells[rowcounter][columncounter] = cellval;
-                columncounter++; // increase colcounter to add next val to next row.col
+                columncounter++;
             }
-            rowcounter ++; //increase rowcounter to add next line into next row of grid.
+            System.out.println(line);
+            rowcounter ++;
         }
-        return Cells;  
+        return Cells;
+        
     }
 
 }
+
+    
+    
+

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.Timer;
 /**
  *
  * @author timothy
@@ -17,75 +18,102 @@ public class GameOflife extends JPanel{
     JTextArea CellPane;
     JPanel Buttons;
     JButton start;
-    JButton stop;
-    private Cell[][] InitialCells = this.CreateCells();
-    Cell[][] Cells;
-    
+    Cell[][] oldCells;
+    Cell[][] newCells;
+    Boolean benjifukaboi;
+        
     public void PrepGui() {
         Mainframe = new JFrame("Game Of Life GUI");
-        Mainframe.setSize(800,600);
-        //Mainframe.setLayout(new GridLayout(2,2));
+        Mainframe.setSize(400,400);
         CellPane = new JTextArea();
         Buttons = new JPanel();
         Mainframe.add(CellPane);
         Mainframe.add(Buttons, BorderLayout.SOUTH);
+        Mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
 
     }
-    public Cell[][] CreateCells () {
-        readBirth readinitial = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/gameoflifegui/birth.txt");
-        Cells = readinitial.readCells();
-        return Cells;
+    public void CreateInitialCells () {      
+        readBirth initialBirth = new readBirth("./birth.txt");
+        this.oldCells = initialBirth.readCells();
+        
     }
     public void run() {
         start = new JButton("Start/resume");
-        stop = new JButton("Stop");
         Buttons.add(start);
-        Buttons.add(stop);
         start.setActionCommand("Start");
-        stop.setActionCommand("Stop");
         start.addActionListener(new ButtonClickListener());
-        stop.addActionListener(new ButtonClickListener());
         Mainframe.setVisible(true);
-        Mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.CreateCells();
+        this.CreateInitialCells();
+        this.printCells();
+        
     }
     
-
-   private void updateGeneration (){
-    for (int i = 0; i <= this.CreateCells().length ; i++){
-        for (int j = 0 ; j <= this.CreateCells()[i].length; j++){
-            this.InitialCells[i][j].update(this.CreateCells(), i, j);
-        }
+    private void updateCells(){
+        newCells = new Cell[this.oldCells.length][this.oldCells[0].length];
+        for (int row=0 ; row<this.oldCells.length;row++){
+            for (int column = 0 ;column < this.oldCells[row].length;column++){
+                System.out.println("row/column "+row+" "+column);
+                String strCell;
+                boolean updateBool = oldCells[row][column].update(oldCells, row, column);
+                if(updateBool){
+                    strCell = "*";
+                }else{
+                    strCell = ".";
+                }
+                newCells[row][column] = new Cell(strCell);
+                newCells[row][column].setAlive(updateBool);
+                }
+            }
+        oldCells = newCells;       
     }
-}
-   private class PrintCells {
-       private Cell[][] CellGrid;
-       JTextArea CellPane;
-       PrintCells (Cell[][] Grid, JTextArea CellPane){
-           CellGrid = Grid;
-           for (int row=0 ; row<=this.CellGrid.length;row++){
-                for (int column = 0 ;column <= this.CellGrid[row].length;column++){
-                    if(CellGrid[row][column].isAlive() == true){
-                        String val = "*";
+    
+    public void printCells() {
+        System.out.println(oldCells[0][0]);
+           for (int row=0 ; row<this.oldCells.length;row++){
+                for (int column = 0 ;column < this.oldCells[row].length;column++){
+                    if(this.oldCells[row][column].isAlive()){
+                        String val = "* ";
                         this.CellPane.append(val);
                     }else{
-                        String val =" ";
+                        String val =" . ";
                         this.CellPane.append(val);
-                    }       
-            }
-        }
-          
-       }   
+                    }
+                }
+               this.CellPane.append("\n");
+            
+           }
     }
+    
+    
+    
+    public void runGeneration(){
+        this.updateCells();
+        CellPane.setText("");
+        printCells();
+ 
+    }
+   Timer timer = new Timer(1000, new ActionListener() {
+        public void actionPerformed(ActionEvent e){
+            runGeneration();
+        }
+    });
+         
        private class ButtonClickListener implements ActionListener{
+        boolean started = false;
         public void actionPerformed(ActionEvent e){
             String command = e.getActionCommand();
             if (command.equals( "Start")){
-                System.out.println("Start");
-            } else if (command.equals( "Stop" )){
-                System.out.println("Stop");
+                if(!started){
+                    started = true;
+                    timer.start();
+                }else{
+                    started = false;
+                    timer.stop();
+                }
             }
         }
     
     }
+         
 }
