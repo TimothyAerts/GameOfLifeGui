@@ -63,7 +63,6 @@ public class GameOflife extends JPanel{
                 NewGeneration[row][column].setAlive(updateBool);
                 if (!NewGeneration[row][column].isAlive() && CurrentGeneration[row][column].isAlive()){
                     NewGeneration[row][column].setTimeOfDeath(GenerationCounter);
-                    System.out.println("time of death set " + NewGeneration[row][column].getTimeOfDeath() + "XY " + row +" " +column);
                 }
                 }
             }     
@@ -81,11 +80,9 @@ public class GameOflife extends JPanel{
                     btns[row][col].setBackground(NewGeneration[row][col].AliveColor());
                 }else{
                     int n = 1+GenerationCounter -NewGeneration[row][col].getTimeOfDeath();
-                    System.out.println("GeneratioCounter" + GenerationCounter + "TOD " + NewGeneration[row][col].getTimeOfDeath());
                     if (n <0){
                         n = 999;
                     }
-                    System.out.println("n " + n );
                     btns[row][col].setBackground(NewGeneration[row][col].deadColor(n));
                 }
                 
@@ -147,7 +144,6 @@ public class GameOflife extends JPanel{
                 if (!started){
                     started = true;
                     timer.start();
-                    System.out.println("START");
                 }else{
                     started = false;
                     timer.stop();

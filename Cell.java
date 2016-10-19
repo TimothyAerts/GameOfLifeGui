@@ -130,13 +130,10 @@ public class Cell {
         float[] rgb;
         rgb =new float[] {0.5f,0.5f,0.5f};
         for (int i=0;i<rgb.length;i++){
-            rgb[i] = rgb[i] + ((n-1)*0.05f);
+            rgb[i] = rgb[i] + (n*0.05f);
             if (rgb[i]>1){
                 rgb[i]=1.0f;
             }
-        }
-        for (float i :rgb){
-            
         }
         Color currentcolor = new Color(rgb[0],rgb[1],rgb[2]);
         return currentcolor;
