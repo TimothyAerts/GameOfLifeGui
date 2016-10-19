@@ -21,7 +21,7 @@ public class GameOflife extends JPanel{
     Cell[][] CurrentGeneration;
     Cell[][] NewGeneration;
     Boolean benjifukaboi;
-    JButton[][] btns;
+    CellButton[][] btns;
     
     public void PrepGui() {
         Mainframe = new JFrame("Game Of Life GUI");
@@ -89,7 +89,7 @@ public class GameOflife extends JPanel{
    public class CellLayout extends JPanel{
        public CellLayout(int row, int col){
         
-        btns = new JButton[CurrentGeneration.length][CurrentGeneration[0].length];
+        btns = new CellButton[CurrentGeneration.length][CurrentGeneration[0].length];
         for (int cellrow=0;cellrow<CurrentGeneration.length;cellrow++){
             for (int cellcol=0;cellcol<CurrentGeneration[0].length;cellcol++){
                 btns[cellrow][cellcol] = CurrentGeneration[cellrow][cellcol].CellBTN();
@@ -100,14 +100,23 @@ public class GameOflife extends JPanel{
         
         for (int btnrow=0;btnrow<CurrentGeneration.length;btnrow++){
             for (int btncol=0;btncol<CurrentGeneration[0].length;btncol++){
+                int getBtnCol = btns[btnrow][btncol].getCol();
+                int getBtnRow = btns[btnrow][btncol].getRow();
                 add(btns[btnrow][btncol]);
                 btns[btnrow][btncol].addActionListener(new ButtonClickListener(){
                     @Override
                     public void actionPerformed(ActionEvent e){
-                       // btns[btnrow][btncol].getRow();
+                        System.out.println(started);
+                       if (CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !started){
+                           CurrentGeneration[getBtnRow][getBtnCol].setAlive(false);
+                       }else if(!CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !started){
+                           CurrentGeneration[getBtnRow][getBtnCol].setAlive(true);
+                           btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].currentColor());
+                       }
+                        btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].currentColor());
                     }
+                    
                 });
-                btns[btnrow][btncol].setActionCommand("Cell");
             }
         }
             
@@ -124,9 +133,6 @@ public class GameOflife extends JPanel{
                     started = true;
                     timer.start();
                     System.out.println("START");
-                }else if (command.equals("Cell")){
-                    //CellButton.getRow();
-                    //CellButton.getCol();
                 }else{
                     started = false;
                     timer.stop();
