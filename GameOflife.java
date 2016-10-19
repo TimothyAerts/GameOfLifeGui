@@ -20,7 +20,7 @@ public class GameOflife extends JPanel{
     JButton start;
     Cell[][] CurrentGeneration;
     Cell[][] NewGeneration;
-    Boolean benjifukaboi;
+    Boolean timerrunning = false;
     CellButton[][] btns;
     
     public void PrepGui() {
@@ -71,6 +71,7 @@ public class GameOflife extends JPanel{
     
     
     public void runGeneration(){
+        timerrunning = true;
         this.updateCells();
         for (int row=0;row<CurrentGeneration.length;row++){
             for (int col=0;col<CurrentGeneration[0].length;col++){
@@ -106,10 +107,9 @@ public class GameOflife extends JPanel{
                 btns[btnrow][btncol].addActionListener(new ButtonClickListener(){
                     @Override
                     public void actionPerformed(ActionEvent e){
-                        System.out.println(started);
-                       if (CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !started){
+                       if (CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !timerrunning){
                            CurrentGeneration[getBtnRow][getBtnCol].setAlive(false);
-                       }else if(!CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !started){
+                       }else if(!CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !timerrunning){
                            CurrentGeneration[getBtnRow][getBtnCol].setAlive(true);
                            btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].currentColor());
                        }
@@ -125,7 +125,7 @@ public class GameOflife extends JPanel{
    }
        
    public class ButtonClickListener implements ActionListener{
-        boolean started = false;
+        public boolean started = false;
         public void actionPerformed(ActionEvent e){
             String command = e.getActionCommand();
             if (command.equals( "Start")){
@@ -136,6 +136,7 @@ public class GameOflife extends JPanel{
                 }else{
                     started = false;
                     timer.stop();
+                    timerrunning = false;
                 }
             }
         }
