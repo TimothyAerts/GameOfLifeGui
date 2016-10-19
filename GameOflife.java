@@ -126,9 +126,7 @@ public class GameOflife extends JPanel{
                        }else if(!CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !timerrunning){
                            CurrentGeneration[getBtnRow][getBtnCol].setAlive(true);
                            btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].AliveColor());
-                       }else{
-                        btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].AliveColor());
-                    }
+                       }
                     }
                 });
             }
