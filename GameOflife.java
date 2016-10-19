@@ -64,6 +64,7 @@ public class GameOflife extends JPanel{
                 NewGeneration[row][column].setTimeOfDeath(CurrentGeneration[row][column].getTimeOfDeath()); 
                 NewGeneration[row][column].setAlive(updateBool);
                 if (!NewGeneration[row][column].isAlive() && CurrentGeneration[row][column].isAlive()){
+                    NewGeneration[row][column] = new FadingCell(row, column);
                     NewGeneration[row][column].setTimeOfDeath(GenerationCounter);
                 }
                 }
@@ -83,7 +84,7 @@ public class GameOflife extends JPanel{
                 }else{
                     int n = 1+GenerationCounter -NewGeneration[row][col].getTimeOfDeath();
                     if (n <0){
-                        n = 999;
+                        n = Integer.MAX_VALUE;
                     }
                     btns[row][col].setBackground(NewGeneration[row][col].deadColor(n));
                 }
