@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gameoflifegui;
+
 
 /**
  *
@@ -16,9 +16,9 @@ public class GameOfLifeGui {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        GameOflife GameOflife = new GameOflife();
-        GameOflife.PrepGui();
-        GameOflife.run();
-    }
+        GameOflife actualrun = new GameOflife();
+        actualrun.PrepGui();
+        actualrun.run();
+        }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gameoflifegui;
+
 import java.io.*;
 import java.util.Scanner;
 /**
@@ -50,12 +50,10 @@ public class readBirth{
             int columncounter = 0;
             for (int col=0 ;col<linearray.length ;col++){
                 Cell cellval;
-                cellval = new Cell(linearray[col]);
-                System.out.println("col "+col+"row "+rowcounter);
+                cellval = new Cell(linearray[col], rowcounter,columncounter);
                 Cells[rowcounter][columncounter] = cellval;
                 columncounter++;
             }
-            System.out.println(line);
             rowcounter ++;
         }
         return Cells;
