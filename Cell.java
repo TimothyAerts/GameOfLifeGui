@@ -150,7 +150,6 @@ public class Cell {
        }else{
            pan.setBackground(this.deadColor(this.timeofdeath));
        }
-       
        pan.setPreferredSize(new Dimension(3,3));
        pan.setBorder(BorderFactory.createLineBorder(Color.BLACK));
        pan.setName("");

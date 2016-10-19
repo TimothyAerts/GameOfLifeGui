@@ -23,13 +23,18 @@ public class GameOflife extends JPanel{
     int GenerationCounter;
     Boolean timerrunning = false;
     CellButton[][] btns;
+    int[] size;
+    
+    public void CreateInitialCells () {      
+        readBirth initialBirth = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/birth.txt");
+        this.CurrentGeneration = initialBirth.readCells();
+        this.size = initialBirth.readSize();
+    }
     
     public void PrepGui() {
         Mainframe = new JFrame("Game Of Life GUI");
         Mainframe.setSize(400,400);
         Buttons = new JPanel();
-        readBirth getSize = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/birth.txt");
-        int[] size = getSize.readSize();
         this.CreateInitialCells();
         cells = new CellLayout(size[0], size[1]);
         Mainframe.add(cells);
@@ -38,10 +43,7 @@ public class GameOflife extends JPanel{
         
 
     }
-    public void CreateInitialCells () {      
-        readBirth initialBirth = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/birth.txt");
-        this.CurrentGeneration = initialBirth.readCells();
-    }
+
     
     public void run() {
         start = new JButton("Start/resume");
@@ -93,7 +95,7 @@ public class GameOflife extends JPanel{
         GenerationCounter ++;
     }
     
-    Timer timer = new Timer(1000, new ActionListener() {
+    Timer timer = new Timer(750, new ActionListener() {
         public void actionPerformed(ActionEvent e){
             runGeneration();
         }
@@ -138,6 +140,7 @@ public class GameOflife extends JPanel{
        
    public class ButtonClickListener implements ActionListener{
         public boolean started = false;
+        @Override
         public void actionPerformed(ActionEvent e){
             String command = e.getActionCommand();
             if (command.equals( "Start")){
