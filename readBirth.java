@@ -6,6 +6,7 @@
 
 import java.io.*;
 import java.util.Scanner;
+import java.net.URL;
 /**
  *
  * @author timothy
@@ -18,7 +19,8 @@ public class readBirth{
     private String line = "";
     Cell[][] Cells;
     readBirth(String str){
-        file = new File(str);
+        URL path = GameOflife.class.getResource(str);
+        file = new File(path.getFile());
         birthFilename = str;
         try {
             input = new Scanner(file);

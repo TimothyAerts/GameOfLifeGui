@@ -9,13 +9,14 @@
  * @author timothy
  */
 import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.event.*;
 public class CellButton extends JButton{
     int row;
     int col;
     public CellButton (int row, int col){
         this.row = row;
         this.col = col;
-        
     }
     
     public int getRow(){
@@ -25,4 +26,6 @@ public class CellButton extends JButton{
     public int getCol(){
         return this.col;
     }
+    
+    
 }

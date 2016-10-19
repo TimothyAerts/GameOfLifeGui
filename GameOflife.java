@@ -26,7 +26,7 @@ public class GameOflife extends JPanel{
     int[] size;
     
     public void readInitial () {      
-        readBirth initialBirth = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/birth.txt");
+        readBirth initialBirth = new readBirth("./birth.txt");
         this.CurrentGeneration = initialBirth.readCells();
         this.size = initialBirth.readSize();
     }
@@ -130,10 +130,10 @@ public class GameOflife extends JPanel{
                     }
                 });
             }
+         }
         }
             
 
-   }
    }
        
    public class ButtonClickListener implements ActionListener{
