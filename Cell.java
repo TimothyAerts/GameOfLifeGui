@@ -61,7 +61,7 @@ public class Cell {
      * @param row row index of the current cell
      * @param col column index of current cell
      */
-    public int checkNeighbour (Cell[][] cell){
+    public int calculateNumNeighbors (Cell[][] cell){
         row = this.row;
         col = this.col;
         int j = col - 1;
@@ -103,7 +103,7 @@ public class Cell {
     public boolean update (Cell[][] cell){
         row = this.row;
         col = this.col;
-       int aliveNeighbours = this.checkNeighbour(cell);
+       int aliveNeighbours = this.calculateNumNeighbors(cell);
        // using the previous counter the following logic sets the current cell to true or false according to the specifications 
        
        if (aliveNeighbours < 2 && this.isAlive()){

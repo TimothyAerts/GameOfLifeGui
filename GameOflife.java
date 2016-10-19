@@ -25,7 +25,7 @@ public class GameOflife extends JPanel{
     CellButton[][] btns;
     int[] size;
     
-    public void CreateInitialCells () {      
+    public void readInitial () {      
         readBirth initialBirth = new readBirth("C:/Users/timothy/Documents/GitHub/GameOfLifeGui/src/birth.txt");
         this.CurrentGeneration = initialBirth.readCells();
         this.size = initialBirth.readSize();
@@ -35,7 +35,7 @@ public class GameOflife extends JPanel{
         Mainframe = new JFrame("Game Of Life GUI");
         Mainframe.setSize(400,400);
         Buttons = new JPanel();
-        this.CreateInitialCells();
+        this.readInitial();
         cells = new CellLayout(size[0], size[1]);
         Mainframe.add(cells);
         Mainframe.add(Buttons, BorderLayout.SOUTH);
@@ -53,7 +53,7 @@ public class GameOflife extends JPanel{
         Mainframe.setVisible(true);
     }
     
-    private void updateCells(){
+    private void nextGeneration(){
         NewGeneration = new Cell[this.CurrentGeneration.length][this.CurrentGeneration[0].length];
         for (int row=0 ; row<this.CurrentGeneration.length;row++){
             for (int column = 0 ;column < this.CurrentGeneration[row].length;column++){
@@ -75,7 +75,7 @@ public class GameOflife extends JPanel{
     
     public void runGeneration(){
         timerrunning = true;
-        this.updateCells();
+        this.nextGeneration();
         for (int row=0;row<CurrentGeneration.length;row++){
             for (int col=0;col<CurrentGeneration[0].length;col++){
                 if (NewGeneration[row][col].isAlive()){
