@@ -6,11 +6,15 @@
 
 /**
  *
- * @author timothy
+ * @author Timothy Aerts, Mathieu Kessels, Benjamin Parment
  */
 import java.awt.event.*;
 import javax.swing.*;
+
+//Start of Mouse Drag Extra
+
 public class MouseMotionEvent extends JPanel implements MouseMotionListener{
+    
     public MouseMotionEvent (){
         addMouseMotionListener(this);
         setVisible(true);

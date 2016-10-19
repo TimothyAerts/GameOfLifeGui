@@ -6,9 +6,10 @@
 
 /**
  *
- * @author timothy
+ * @author Timothy Aerts, Mathieu Kessels, Benjamin Parment
  */
 import java.awt.Color;
+//Start of FadingCell, not currently in use because we used different way
 public class FadingCell extends Cell {
     int age;
     FadingCell (int row, int col){
@@ -22,8 +23,8 @@ public class FadingCell extends Cell {
         return this.age;
     }
     @Override
-    public Color deadColor (int n){
-        n = this.age;
+    public Color deadColor (int n){     //Fading colors logic depending on
+        n = this.age;                   //when the cell died
         float[] rgb;
         rgb =new float[] {0.5f,0.5f,0.5f};
         for (int i=0;i<rgb.length;i++){

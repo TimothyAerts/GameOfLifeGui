@@ -9,9 +9,9 @@ import java.util.Scanner;
 import java.net.URL;
 /**
  *
- * @author timothy
+ * @author Timothy Aerts, Mathieu Kessels, Benjamin Parment
  */
-public class readBirth{
+public class readBirth{                                 //Reading the inputfile
     private int[] size = new int[2];
     private File file;
     String birthFilename;
@@ -19,19 +19,19 @@ public class readBirth{
     private String line = "";
     Cell[][] Cells;
     readBirth(String str){
-        URL path = GameOflife.class.getResource(str);
+        URL path = GameOflife.class.getResource(str);   //Path of inputfile
         file = new File(path.getFile());
         birthFilename = str;
         try {
             input = new Scanner(file);
-        }catch (Exception e) {
+        }catch (Exception e) {                         
             System.out.println("File not found");
         }
         
     }
     
-    public int[] readSize(){
-        int i =0;
+    public int[] readSize(){                            //Reading dimensions
+        int i =0;                                       //used for the grid
         while (input.hasNextInt() && i<2){
             size[i] = input.nextInt();
             i++;
@@ -39,13 +39,13 @@ public class readBirth{
         return size;
     }
     
-    public Cell[][] readCells(){
+    public Cell[][] readCells(){                        //Reading cells
         size = this.readSize();
         Cells  = new Cell[size[0]][size[1]];
         int rowcounter = 0;
         input.nextLine();
         
-        while (input.hasNextLine()){
+        while (input.hasNextLine()){                    
             String[] linearray;
             line  = input.nextLine().trim();
             linearray = line.split(" ");
