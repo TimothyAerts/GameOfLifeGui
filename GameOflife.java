@@ -20,6 +20,7 @@ public class GameOflife extends JPanel{
     JButton start;
     Cell[][] CurrentGeneration;
     Cell[][] NewGeneration;
+    int GenerationCounter;
     Boolean timerrunning = false;
     CellButton[][] btns;
     
@@ -56,13 +57,14 @@ public class GameOflife extends JPanel{
             for (int column = 0 ;column < this.CurrentGeneration[row].length;column++){
                 String strCell;
                 boolean updateBool = CurrentGeneration[row][column].update(CurrentGeneration);
-//                if(updateBool){
-//                    strCell = "*";
-//                }else{
-//                    strCell = ".";
-//                }
+
                 NewGeneration[row][column] = new Cell(row, column);
+                NewGeneration[row][column].setTimeOfDeath(CurrentGeneration[row][column].getTimeOfDeath()); 
                 NewGeneration[row][column].setAlive(updateBool);
+                if (!NewGeneration[row][column].isAlive() && CurrentGeneration[row][column].isAlive()){
+                    NewGeneration[row][column].setTimeOfDeath(GenerationCounter);
+                    System.out.println("time of death set " + NewGeneration[row][column].getTimeOfDeath() + "XY " + row +" " +column);
+                }
                 }
             }     
     }
@@ -75,11 +77,23 @@ public class GameOflife extends JPanel{
         this.updateCells();
         for (int row=0;row<CurrentGeneration.length;row++){
             for (int col=0;col<CurrentGeneration[0].length;col++){
-                btns[row][col].setBackground(NewGeneration[row][col].currentColor());
+                if (NewGeneration[row][col].isAlive()){
+                    btns[row][col].setBackground(NewGeneration[row][col].AliveColor());
+                }else{
+                    int n = 1+GenerationCounter -NewGeneration[row][col].getTimeOfDeath();
+                    System.out.println("GeneratioCounter" + GenerationCounter + "TOD " + NewGeneration[row][col].getTimeOfDeath());
+                    if (n <0){
+                        n = 999;
+                    }
+                    System.out.println("n " + n );
+                    btns[row][col].setBackground(NewGeneration[row][col].deadColor(n));
+                }
+                
             }
         }
         cells.repaint();
         CurrentGeneration = NewGeneration;
+        GenerationCounter ++;
     }
     
     Timer timer = new Timer(1000, new ActionListener() {
@@ -109,13 +123,14 @@ public class GameOflife extends JPanel{
                     public void actionPerformed(ActionEvent e){
                        if (CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !timerrunning){
                            CurrentGeneration[getBtnRow][getBtnCol].setAlive(false);
+                           btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].deadColor(999));
                        }else if(!CurrentGeneration[getBtnRow][getBtnCol].isAlive() && !timerrunning){
                            CurrentGeneration[getBtnRow][getBtnCol].setAlive(true);
-                           btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].currentColor());
-                       }
-                        btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].currentColor());
+                           btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].AliveColor());
+                       }else{
+                        btns[getBtnRow][getBtnCol].setBackground(CurrentGeneration[getBtnRow][getBtnCol].AliveColor());
                     }
-                    
+                    }
                 });
             }
         }

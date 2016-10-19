@@ -18,6 +18,7 @@ public class Cell {
     private int numNeighbours;
     private int row;
     private int col;
+    private int timeofdeath = Integer.MAX_VALUE;
     Cell (String str, int row, int col){
         if (str.equals("*")){
             this.setAlive(true);
@@ -118,27 +119,41 @@ public class Cell {
        }
     }
     
-    public Color currentColor (){
-        float[] rgb = new float[3];
-        Color currentcolor;
-        if (this.isAlive()){
-            rgb[0] = 0;
-            rgb[1] = 0;
-            rgb[2] = 0;
-            currentcolor = new Color(rgb[0],rgb[1],rgb[2]);
-            return currentcolor;
-        }else{
-            rgb[0] = 1;
-            rgb[1] = 1;
-            rgb[2] = 1;
-            currentcolor = new Color(rgb[0],rgb[1],rgb[2]);
-            return currentcolor;
+    public void setTimeOfDeath(int n){
+        this.timeofdeath = n;
+    }
+    
+    public int getTimeOfDeath (){
+        return this.timeofdeath;
+    }
+    public Color deadColor (int n){
+        float[] rgb;
+        rgb =new float[] {0.5f,0.5f,0.5f};
+        for (int i=0;i<rgb.length;i++){
+            rgb[i] = rgb[i] + ((n-1)*0.05f);
+            if (rgb[i]>1){
+                rgb[i]=1.0f;
+            }
         }
+        for (float i :rgb){
+            
+        }
+        Color currentcolor = new Color(rgb[0],rgb[1],rgb[2]);
+        return currentcolor;
+    }
+    
+    public Color AliveColor (){
+        return Color.BLACK;
     }
    public CellButton CellBTN (){
        CellButton pan = new CellButton(this.row, this.col);
        pan.setEnabled(true);
-       pan.setBackground(this.currentColor());
+       if (this.isAlive()){
+           pan.setBackground(this.AliveColor());
+       }else{
+           pan.setBackground(this.deadColor(this.timeofdeath));
+       }
+       
        pan.setPreferredSize(new Dimension(3,3));
        pan.setBorder(BorderFactory.createLineBorder(Color.BLACK));
        pan.setName("");
